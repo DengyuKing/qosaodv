@@ -1,0 +1,30 @@
+BEGIN{
+i=0;
+
+}
+
+{
+event=$1;
+data=$2;
+if (i==6)
+i=0;
+aver[i]+=$2;
+i++;
+
+
+
+}
+END{
+for (j=0;j<6;j++){
+ printf ("%.2f\n",aver[j]/10);
+}
+
+
+}
+
+
+
+
+
+
+

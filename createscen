@@ -1,0 +1,19 @@
+#!bin/bash
+
+#Progrem
+base=~/wireless
+base1=/aodv_speed/scen_speed_
+#base2=/aodv_time/scen_time_
+base3=/aodv_num/scen_num_
+# set the speed of the node
+for ((i=5;i<=30;i+=5))
+do
+/usr/ns-allinone-2.34/ns-2.34/indep-utils/cmu-scen-gen/setdest/setdest -n 50 -p 3.0 -M $i -t 300 -x 1000 -y 1000 >${base}${base1}${i}
+printf "node 50 pause 3.0 maxspeed %d time 300 file %s\n" $i ${base}${base1}${i}
+done
+#set the number of the node
+for ((i=10; i<=60; i=i+10))
+do
+/usr/ns-allinone-2.34/ns-2.34/indep-utils/cmu-scen-gen/setdest/setdest -n $i -p 3.0 -M 10 -t 300 -x 1000 -y 1000 >${base}${base3}${i}
+printf "node %d pause 3.0 maxspeed 10 time 300 file %s\n" $i ${base}${base3}${i}
+done

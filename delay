@@ -1,0 +1,67 @@
+BEGIN{
+highest_uid=0;
+}
+
+{
+event=$1;
+
+time =$2;
+
+node_nb=$3;
+#node_nb=substr(node_nb,2,1);
+
+
+trace_type=$4;
+
+flag=$5;
+
+uid=$6;
+
+pkt_type=$7;
+
+pkt_size=$8;
+#print event "\t" time "\t" node_nb "\t" trace_type "\t" flag "\t" uid "\t" pkt_type "\t" pkt_size
+if (event=="s"&&node_nb=="_3_"&&pkt_type=="cbr"&&uid>highest_uid)
+{
+highest_uid=uid;
+}
+
+if (event=="s"&&node_nb=="_3_"&&pkt_type=="cbr")
+{
+if (start_time[uid]==0)
+start_time[uid]=time;
+
+#print event "\t" time "\t" node_nb "\t" trace_type "\t" flag "\t" uid "\t" pkt_type "\t" pkt_size
+}
+
+if (event=="r"&&node_nb=="_2_"&&pkt_type=="cbr")
+{
+end_time[uid]=time;
+
+#print event "\t" time "\t" node_nb "\t" trace_type "\t" flag "\t" uid "\t" pkt_type "\t" pkt_size
+}
+}
+END{
+paket=0;
+for (packet_id=0;packet_id<=highest_uid;packet_id++)
+{
+start =start_time[packet_id];
+end=end_time[packet_id];
+
+if (start<end){
+packet_duration+=(end-start);
+paket++;
+
+#print packet_id "\t" packet_duration "\n"
+}
+
+}
+print packet_duration/paket "\n"
+}
+
+
+
+
+
+
+

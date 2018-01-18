@@ -1,0 +1,9 @@
+#!/bin/bash
+rm -r ./trace_*
+rm -r ./dropdata_*
+for((i=76;i<=92;i+=4))
+do 
+ sh test 5 $i 
+done
+mv dropdata_* dropdata
+mv trace_* trace

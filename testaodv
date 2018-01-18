@@ -1,0 +1,30 @@
+#!/bin/bash
+
+#order=/usr/ns-allinone-2.34/ns-2.34/nsaodv
+order=./ns
+tcl=./ns3/wireless.tcl
+
+trace1=./data/trace_speed_
+trace2=./data/trace_time_
+trace3=./data/trace_num_
+
+scen1=./aodv_speed/scen_speed_
+
+scen2=./aodv_time/scen_time_
+
+scen3=./aodv_num/scen_num_
+
+# create speed trace_
+for ((i=5;i<=30;i+=5))
+do
+${order} ${tcl} 50 ${scen1}$i 300 ${trace1}$i
+done
+#create time trace
+for ((i=150; i<=900; i=i+150))
+do
+${order} ${tcl} 50 ${scen2}$i $i ${trace2}$i
+done
+for ((i=10; i<=60; i=i+10))
+do
+${order} ${tcl} $i ${scen3}$i 300 ${trace3}$i
+done

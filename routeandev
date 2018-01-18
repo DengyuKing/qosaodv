@@ -1,0 +1,28 @@
+BEGIN{
+i=0;
+}
+
+{
+total=$1;
+if (total!="num"&&total!="speed"){
+	route=$2;
+	evalue=$3;
+	rate[i]=route/total;
+	ev[i]=evalue/route;
+	i++;
+}
+
+
+}
+END{
+for (j=0;j<i;j++)
+printf("%.2f %.6f\n",rate[j],ev[j]);
+
+}
+
+
+
+
+
+
+

@@ -1,0 +1,69 @@
+#!/bin/bash
+
+#order=/usr/ns-allinone-2.34/ns-2.34/ns
+order=./ns
+tcl=./ns3/wireless.tcl
+
+trace1=./data/trace_speed_
+trace2=./data/trace_time_
+trace3=./data/trace_num_
+
+scen1=./aodv_speed/scen_speed_
+
+scen2=./aodv_time/scen_time_
+
+scen3=./aodv_num/scen_num_
+trust=$1
+energy=$2
+echo $trust $energy
+rm -r ./trace/*
+rm -r ./dropdata/*
+# create speed trace_
+for ((k=1;k<=10;k++))
+do
+for ((i=5;i<=30;i+=5))
+do
+${order} ${tcl} 50 ${scen1}$i 300 ${trace1}$i $trust $energy
+echo "speed"$k >>./trace/qosaodv
+echo "speed"$k >>./trace/qosaodvhaha
+gawk -f drop seq=$i ${trace1}$i >>./dropdata/speed
+gawk -f rate seq=$i ${trace1}$i >>./dropdata/speedrate
+done
+
+for ((i=10; i<=60; i=i+10))
+do
+${order} ${tcl} $i ${scen3}$i 300 ${trace3}$i $trust $energy
+echo "num"$k >>./trace/qosaodv
+echo "num"$k >>./trace/qosaodvhaha
+gawk -f drop seq=$i ${trace3}$i >>./dropdata/num
+gawk -f rate seq=$i ${trace3}$i >>./dropdata/numrate
+done
+#for ((i=4;i<=9;i++))
+#do
+#${order} ${tcl} 50 ${scen1}10 300 ${trace3}$i $i 0
+#echo "trust"$k >>./trace/qosaodv 
+#gawk -f drop seq=$i ${trace3}$i >>./dropdata/trust
+#gawk -f rate seq=$i ${trace3}$i >>./dropdata/trustrate
+#done
+#for ((i=400;i<=900;i=i+100))
+#do
+#${order} ${tcl} 50 ${scen1}10 300 ${trace3}$i 0 $i
+#echo "energy"$k >>./trace/qosaodv 
+#gawk -f drop seq=$i ${trace3}$i >>./dropdata/energy
+#gawk -f rate seq=$i ${trace3}$i >>./dropdata/energyrate
+#done
+echo "####" >>./trace/qosaodv
+echo "####" >>./trace/qosaodvhaha
+sh createscen
+done
+gawk -f testdrop ./dropdata/num >./dropdata/maodvnum
+gawk -f testrate ./dropdata/numrate >./dropdata/maodvnumrate
+gawk -f testdrop ./dropdata/speed >./dropdata/maodvspeed
+gawk -f testrate ./dropdata/speedrate >./dropdata/maodvspeedrate
+gawk -f routenum ./trace/qosaodvhaha >./trace/routenumtotal
+gawk -f routesuccessrate ./trace/qosaodv >./trace/routesuccessnum
+paste -d " " ./trace/routenumtotal ./trace/routesuccessnum >./trace/route
+gawk -f routeandev ./trace/route >./trace/route_ev
+mv dropdata dropdata_"$trust"_"$energy"
+mv trace trace_"$trust"_"$energy"
+mkdir dropdata trace

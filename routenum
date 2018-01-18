@@ -1,0 +1,148 @@
+BEGIN{
+i=0;
+j=0;
+k=0;
+l=0;
+t=1;
+x=0;
+current="speed";
+}
+
+{
+event=$1;
+if (event=="####"){
+i=0;
+j=0;
+k=0;
+l=0;
+t++;
+x=0;
+current="speed";
+}
+#printf("%s\n",current);
+switch(current){
+
+case "speed":
+#printf("zizi%s\n",(current""t));
+if (event==(current""t)){
+	#printf("%s\n",event);
+ 	
+	
+	speed[i]+=x;
+	i++;
+ 	x=0;	
+	if (i==6){
+	current="num";
+	}	
+}else{
+	x++;
+}
+break
+case "num":
+if (event==(current""t)){
+	#printf("%s\n",event);
+	num[j]+=x;
+	x=0;
+	j++;
+	if (j==6){
+	current="speed";
+	}	
+}else{
+	x++;
+}
+break
+case "trust":
+if (event==(current""t)){
+	#printf("%s\n",event);
+	m=0;
+	for (subscript in array) {
+        split(subscript, a, SUBSEP);
+	trust_aver[k]+=array[a[1],a[2]];
+	m++;
+	}
+	x=length(array);
+	trust[k]+=x;
+	trust_rate[k]+=m;
+	
+	
+	delete array;
+	k++;
+	if (k==6){
+	current="energy";
+	}	
+}else{
+	
+	if ((src,seq) in array)	{
+	if (array[src,seq]<event)
+	array[src,seq]=event;
+	}else{
+	array[src,seq]=event;
+	}	
+}
+break
+case "energy":
+if (event==(current""t)){
+	#printf("%s\n",event);
+	m=0;
+	for (subscript in array) {
+        split(subscript, a, SUBSEP);
+	energy_aver[l]+=array[a[1],a[2]];
+	m++;
+	
+	}
+	x=length(array);
+	energy[l]+=x;
+	energy_rate[l]+=m;
+	
+	
+	delete array;
+	l++;
+	if (l==6){
+	current="speed";
+	}	
+}else{
+	if ((src,seq) in array)	{
+	if (array[src,seq]<event)
+	array[src,seq]=event;
+	}else{
+	array[src,seq]=event;
+	}	
+}
+break
+
+}
+
+
+
+
+
+
+}
+END{
+printf("speed\n");
+ for (i=0;i<6;i++){
+	printf ("%d\n",speed[i]);
+}
+   
+printf("num\n");
+ for (i=0;i<6;i++){
+	printf ("%d\n",num[i]);
+}
+#printf("trust\n");
+ #for (i=0;i<6;i++){
+#	printf ("%.2f %.2f\n",trust_rate[i]/speed[0],trust_aver[i]/trust_rate[i]);
+#}
+# for (i=0;i<6;i++){
+#	printf ("%.2f %.2f\n",energy_rate[i]/speed[0],energy_aver[i]/energy_rate[i]);
+#}
+
+
+
+}
+
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+BEGIN{
+fsDrops=0;
+numfs0=0;
+numfs2=0;
+}
+
+{
+event=$1;
+
+time =$2;
+
+node_nb=$3;
+#node_nb=substr(node_nb,2,1);
+
+
+trace_type=$4;
+
+flag=$5;
+
+uid=$6;
+
+pkt_type=$7;
+
+pkt_size=$8;
+#print event "\t" time "\t" node_nb "\t" trace_type "\t" flag "\t" uid "\t" pkt_type "\t" pkt_size
+if (pkt_type=="cbr"&&trace_type=="AGT")
+{
+numfs0++;
+}
+
+if (pkt_type=="AODV"&&trace_type="RTR")
+{
+numfs2++;
+#print event "\t" time "\t" node_nb "\t" trace_type "\t" flag "\t" uid "\t" pkt_type "\t" pkt_size
+}
+
+
+
+}
+END{
+#average=fsDrops/numfs0;
+printf ("%.2f %.2f %d %d\n ",seq,numfs2/(numfs2+numfs0),numfs0,numfs2);
+
+}
+
+
+
+
+
+
+

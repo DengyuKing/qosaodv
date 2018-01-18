@@ -1,0 +1,42 @@
+BEGIN{
+
+}
+
+{
+ev=$1;
+src=$3;
+seq=$8
+
+if (ev ~ /speed/ ||ev ~/num/||ev ~/##/){
+	
+}else{
+	
+ 	if ((src,seq) in array){
+	if (array[src,seq]<ev)
+	array[src,seq]=ev;
+	}else{
+	array[src,seq]=ev;
+#	print array[src,seq] " " src " " seq " ";
+	}
+}
+
+
+
+
+
+}
+END{
+x=length(array);
+print x;
+for (k in array)
+split (k,a,SUBSEP);
+print array[a[1],a[2]] "\n";
+
+}
+
+
+
+
+
+
+
